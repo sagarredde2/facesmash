@@ -45,7 +45,7 @@ app.post('/api/analyze', async (req, res) => {
         const base64Image = image.replace(/^data:image\/\w+;base64,/, '');
 
         // Get Gemini model (use gemini-2.5-flash for multimodal analysis)
-        const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+        const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
 
         // Craft the prompt
         const prompt = `Analyze this person's facial attractiveness objectively and professionally based on:
@@ -135,7 +135,7 @@ app.post('/api/compare', async (req, res) => {
         const base64Image1 = image1.replace(/^data:image\/\w+;base64,/, '');
         const base64Image2 = image2.replace(/^data:image\/\w+;base64,/, '');
 
-        const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+        const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
 
         const prompt = `Compare these two people's facial attractiveness objectively.
 
