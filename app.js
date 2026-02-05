@@ -15,7 +15,7 @@ const state = {
     compareScores: [0, 0],
     compareNames: ['', ''],
     useGemini: true, // Use Gemini by default, fallback to face-api.js
-    geminiBackendUrl: window.location.origin, // Use same origin (works locally and in production)
+    geminiBackendUrl: 'https://facesmash-murex.vercel.app', // Production backend URL
     currentExplanation: ''
 };
 
