@@ -18,22 +18,10 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
-    const key = process.env.GEMINI_API_KEY || '';
-    // Security: Only show first 4 and last 4 chars to verify key loading
-    const maskedKey = key ? `${key.substring(0, 4)}...${key.substring(key.length - 4)}` : 'Not Set';
-
-    console.log(`Debug: Key Length: ${key.length}, Start: ${key.substring(0, 2)}`);
-
     res.json({
         status: 'ok',
         message: 'FaceApp backend is running',
-        geminiConfigured: !!key,
-        keyDebug: {
-            masked: maskedKey,
-            length: key.length,
-            hasQuotes: key.startsWith('"') || key.startsWith("'"),
-            hasWhitespace: key.trim() !== key
-        }
+        geminiConfigured: !!process.env.GEMINI_API_KEY
     });
 });
 
