@@ -14,10 +14,10 @@ app.use(express.json({ limit: '10mb' })); // Allow larger payloads for images
 app.use(express.static(__dirname));
 
 // Initialize Gemini AI
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY);
 
 app.get('/api/health', (req, res) => {
-    const key = process.env.GEMINI_API_KEY || '';
+    const key = process.env.GOOGLE_AI_API_KEY || '';
     // Security: Only show first 4 and last 4 chars to verify key loading
     const maskedKey = key ? `${key.substring(0, 4)}...${key.substring(key.length - 4)}` : 'Not Set';
 
@@ -26,7 +26,8 @@ app.get('/api/health', (req, res) => {
         message: 'FaceApp backend is running',
         geminiConfigured: !!key,
         keyDebug: {
-            masked: process.env.GEMINI_API_KEY,
+            variable: 'GOOGLE_AI_API_KEY',
+            masked: maskedKey,
             length: key.length,
             hasQuotes: key.startsWith('"') || key.startsWith("'"),
             hasWhitespace: key.trim() !== key,
@@ -45,10 +46,10 @@ app.post('/api/analyze', async (req, res) => {
             return res.status(400).json({ error: 'No image provided' });
         }
 
-        if (!process.env.GEMINI_API_KEY) {
+        if (!process.env.GOOGLE_AI_API_KEY) {
             return res.status(500).json({
                 error: 'Gemini API key not configured',
-                message: 'Please set GEMINI_API_KEY in .env file'
+                message: 'Please set GOOGLE_AI_API_KEY in Vercel settings'
             });
         }
 
@@ -136,7 +137,7 @@ app.post('/api/compare', async (req, res) => {
             return res.status(400).json({ error: 'Two images required' });
         }
 
-        if (!process.env.GEMINI_API_KEY) {
+        if (!process.env.GOOGLE_AI_API_KEY) {
             return res.status(500).json({
                 error: 'Gemini API key not configured'
             });
