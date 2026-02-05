@@ -173,11 +173,15 @@ Respond ONLY with valid JSON (no markdown):
 {
   "person1": {
     "score": <number>,
-    "analysis": "<honest, critical analysis>"
+    "analysis": "<honest, critical analysis>",
+    "strengths": ["<strength1>", "<strength2>"],
+    "areas": ["<area1>", "<area2>"]
   },
   "person2": {
     "score": <number>,
-    "analysis": "<honest, critical analysis>"
+    "analysis": "<honest, critical analysis>",
+    "strengths": ["<strength1>", "<strength2>"],
+    "areas": ["<area1>", "<area2>"]
   },
   "comparison": "<brutally honest comparison of the two>",
   "winner": <1 or 2, or 0 for tie>

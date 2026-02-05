@@ -18,7 +18,9 @@ const state = {
     geminiBackendUrl: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
         ? 'http://localhost:3000'
         : 'https://facesmash-murex.vercel.app',
-    currentExplanation: ''
+    currentExplanation: '',
+    currentStrengths: [],
+    currentAreas: []
 };
 
 // ===========================
@@ -293,6 +295,8 @@ async function analyzeImage() {
                 score = geminiResult.score;
                 explanation = geminiResult.explanation || '';
                 state.currentExplanation = explanation;
+                state.currentStrengths = geminiResult.strengths || [];
+                state.currentAreas = geminiResult.areas || [];
                 console.log('✅ Gemini analysis successful:', score);
             }
         } catch (error) {
@@ -317,6 +321,8 @@ async function analyzeImage() {
 
         score = await calculateAttractivenessScore(state.uploadedImage);
         state.currentExplanation = 'Analysis based on facial landmarks and proportions.';
+        state.currentStrengths = ['Clear detection', 'Facial symmetry analysis'];
+        state.currentAreas = ['Multimodal AI analysis unavailable'];
     }
 
     // Check if analysis failed (no face detected)
@@ -632,6 +638,32 @@ function displayResults(score) {
     // Display personalized message
     const message = generateResultMessage(score, stats.percentile);
     document.getElementById('result-text').textContent = message;
+
+    // Display AI explanation and qualities
+    if (state.currentExplanation) {
+        document.getElementById('ai-explanation').classList.remove('hidden');
+        document.getElementById('explanation-text').textContent = state.currentExplanation;
+
+        // Display strengths
+        const strengthsList = document.getElementById('strengths-list');
+        strengthsList.innerHTML = '';
+        state.currentStrengths.forEach(s => {
+            const li = document.createElement('li');
+            li.textContent = s;
+            strengthsList.appendChild(li);
+        });
+
+        // Display areas
+        const areasList = document.getElementById('areas-list');
+        areasList.innerHTML = '';
+        state.currentAreas.forEach(a => {
+            const li = document.createElement('li');
+            li.textContent = a;
+            areasList.appendChild(li);
+        });
+    } else {
+        document.getElementById('ai-explanation').classList.add('hidden');
+    }
 }
 
 function animateScore(targetScore) {
