@@ -14,13 +14,11 @@ const state = {
     compareImages: [null, null],
     compareScores: [0, 0],
     compareNames: ['', ''],
-    useGemini: true, // Use Gemini by default, fallback to face-api.js
-    geminiBackendUrl: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-        ? 'http://localhost:3000'
-        : 'https://facesmash-murex.vercel.app',
     currentExplanation: '',
     currentStrengths: [],
-    currentAreas: []
+    currentAreas: [],
+    compareQualities: [{ strengths: [], areas: [] }, { strengths: [], areas: [] }],
+    comparisonSummary: ''
 };
 
 // ===========================
@@ -993,6 +991,13 @@ async function analyzeComparison() {
             if (geminiResult && geminiResult.person1 && geminiResult.person2) {
                 score1 = geminiResult.person1.score;
                 score2 = geminiResult.person2.score;
+
+                state.compareQualities = [
+                    { strengths: geminiResult.person1.strengths || [], areas: geminiResult.person1.areas || [] },
+                    { strengths: geminiResult.person2.strengths || [], areas: geminiResult.person2.areas || [] }
+                ];
+                state.comparisonSummary = geminiResult.comparison || '';
+
                 console.log('✅ Gemini comparison successful:', score1, score2);
             }
         } catch (error) {
@@ -1063,6 +1068,34 @@ function displayComparisonResults() {
     } else {
         winnerBadge.textContent = '🤝';
         winnerBadge.title = 'It\'s a tie!';
+    }
+
+    // Display comparison summary and qualities
+    if (state.comparisonSummary) {
+        document.getElementById('comparison-explanation').classList.remove('hidden');
+        document.getElementById('comparison-summary-text').textContent = state.comparisonSummary;
+
+        // Update names in qualities grid
+        document.getElementById('qualities-name-1').textContent = `${state.compareNames[0]}'s Qualities`;
+        document.getElementById('qualities-name-2').textContent = `${state.compareNames[1]}'s Qualities`;
+
+        // Populate lists
+        const populateList = (id, items) => {
+            const list = document.getElementById(id);
+            list.innerHTML = '';
+            items.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                list.appendChild(li);
+            });
+        };
+
+        populateList('compare-strengths-1', state.compareQualities[0].strengths);
+        populateList('compare-areas-1', state.compareQualities[0].areas);
+        populateList('compare-strengths-2', state.compareQualities[1].strengths);
+        populateList('compare-areas-2', state.compareQualities[1].areas);
+    } else {
+        document.getElementById('comparison-explanation').classList.add('hidden');
     }
 }
 // ===========================

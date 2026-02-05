@@ -693,6 +693,56 @@ body {
     }
 }
 
+.comparison-explanation-box {
+    margin: var(--space-lg) 0;
+    padding: var(--space-md);
+    background: rgba(102, 126, 234, 0.1);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    text-align: left;
+}
+
+.comparison-summary-text {
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-top: var(--space-sm);
+    line-height: 1.5;
+}
+
+.comparison-qualities-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+    margin-top: var(--space-lg);
+    text-align: left;
+}
+
+.comparison-qualities h4 {
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-xs);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.comparison-qualities .quality-box {
+    margin-bottom: var(--space-md);
+}
+
+.comparison-qualities .quality-box h5 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: var(--space-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+@media (max-width: 768px) {
+    .comparison-qualities-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 .result-actions {
     display: flex;
     gap: var(--space-md);
