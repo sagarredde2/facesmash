@@ -60,28 +60,32 @@ app.post('/api/analyze', async (req, res) => {
         const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
         // Craft the prompt
-        const prompt = `Analyze this person's facial attractiveness objectively and professionally based on:
+        const prompt = `Analyze this person's facial attractiveness with extreme honesty and critical objectivity. 
+Do not be overly polite or generic. Provide a genuine, high-fidelity assessment based on:
 1. Facial symmetry (balance between left and right sides)
-2. Proportions (golden ratio, facial thirds)
-3. Skin clarity and complexion
+2. Proportions (golden ratio, facial thirds, bone structure)
+3. Skin clarity, complexion, and grooming
 4. Feature harmony (how well features complement each other)
-5. Overall aesthetic appeal
+5. Overall aesthetic appeal and physical impact
 
-Provide a realistic score from 0-100. Use the full range:
-- 0-30: Below average
-- 31-50: Average
-- 51-70: Above average
-- 71-85: Very attractive
-- 86-100: Exceptionally attractive
+CRITICAL SCORING INSTRUCTIONS:
+- Use the FULL range from 0 to 100. Do not cluster scores in the middle.
+- 0-20: Exceptionally below average / Significant aesthetic issues
+- 21-40: Below average
+- 41-55: Average
+- 56-75: Above average / Conventionally attractive
+- 76-90: High model tier / Significantly attractive
+- 91-100: Top 1% / Exceptional beauty
 
-Be honest and use the full spectrum. Most people should score between 40-70.
+Be bold and critical. If a face has flaws, account for them. If it is stunning, reward it.
+Most people should NOT be 70+. A score of 80 should be rare, and 90+ should be elite.
 
 Respond ONLY with valid JSON in this exact format (no markdown, no code blocks):
 {
   "score": <number between 0-100>,
-  "explanation": "<2-3 sentence explanation of the score>",
-  "strengths": ["<strength1>", "<strength2>"],
-  "areas": ["<area1>", "<area2>"]
+  "explanation": "<2-3 sentence honest and specific explanation of the score>",
+  "strengths": ["<specific_strength1>", "<specific_strength2>"],
+  "areas": ["<specific_area1>", "<specific_area2>"]
 }`;
 
         // Call Gemini API
@@ -149,30 +153,33 @@ app.post('/api/compare', async (req, res) => {
 
         const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
-        const prompt = `Compare these two people's facial attractiveness objectively.
+        const prompt = `Critically compare these two people's facial attractiveness with brutal honesty and objectivity.
 
 Person 1: ${name1 || 'First person'}
 Person 2: ${name2 || 'Second person'}
 
-For each person, analyze:
-- Facial symmetry
-- Proportions and golden ratio
-- Feature quality
-- Overall aesthetic appeal
+Analyze for each:
+- Symmetry and bone structure
+- Feature harmony and proportions
+- Overall physical impact
 
-Provide realistic scores (0-100) using the full range. Most people score 40-70.
+SCORING RULES:
+- Use the full 0-100 range.
+- Do not default to high scores. 
+- Be specific about why one is more attractive than the other.
+- If there is a clear difference, reflect it in a significant score gap.
 
 Respond ONLY with valid JSON (no markdown):
 {
   "person1": {
     "score": <number>,
-    "analysis": "<brief analysis>"
+    "analysis": "<honest, critical analysis>"
   },
   "person2": {
     "score": <number>,
-    "analysis": "<brief analysis>"
+    "analysis": "<honest, critical analysis>"
   },
-  "comparison": "<1-2 sentences comparing them>",
+  "comparison": "<brutally honest comparison of the two>",
   "winner": <1 or 2, or 0 for tie>
 }`;
 
