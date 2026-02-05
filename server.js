@@ -210,9 +210,14 @@ Respond ONLY with valid JSON (no markdown):
     }
 });
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`🚀 FaceApp backend running on http://localhost:${PORT}`);
-    console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
-    console.log(`🔑 Gemini API configured: ${!!process.env.GEMINI_API_KEY}`);
-});
+// Start server only if not running in Vercel (serverless)
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`🚀 FaceApp backend running on http://localhost:${PORT}`);
+        console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
+        console.log(`🔑 Gemini API configured: ${!!process.env.GEMINI_API_KEY}`);
+    });
+}
+
+// Export the Express API for Vercel serverless
+module.exports = app;
