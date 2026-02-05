@@ -14,6 +14,10 @@ const state = {
     compareImages: [null, null],
     compareScores: [0, 0],
     compareNames: ['', ''],
+    useGemini: true, // Use Gemini by default, fallback to face-api.js
+    geminiBackendUrl: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:3000'
+        : 'https://facesmash-murex.vercel.app',
     currentExplanation: '',
     currentStrengths: [],
     currentAreas: [],
