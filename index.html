@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Upload your photo and receive an instant attractiveness score with percentile ranking">
+    <title>FaceApp - Attractiveness Score & Ranking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Background Animation -->
+    <div class="gradient-bg"></div>
+
+    <!-- Main App Container -->
+    <div class="app-container">
+
+        <!-- Welcome/Consent Screen -->
+        <section id="consent-screen" class="screen active">
+            <div class="glass-card consent-card">
+                <div class="logo-area">
+                    <div class="logo-icon">✨</div>
+                    <h1 class="app-title">FaceApp</h1>
+                    <p class="app-subtitle">AI-Powered Attractiveness Analysis</p>
+                </div>
+
+                <div class="consent-content">
+                    <h2>Before You Begin</h2>
+
+                    <div class="info-box">
+                        <div class="info-icon">🤖</div>
+                        <div>
+                            <h3>Automated Scoring</h3>
+                            <p>This application uses an AI algorithm to analyze facial features and assign an
+                                attractiveness score. The analysis is entirely automated and based on various objective
+                                metrics.</p>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-icon">💭</div>
+                        <div>
+                            <h3>Subjective Nature of Beauty</h3>
+                            <p>Beauty is subjective and culturally influenced. This score is for entertainment purposes
+                                only and does not define your worth or true attractiveness.</p>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-icon">🔒</div>
+                        <div>
+                            <h3>Privacy & Data</h3>
+                            <p>All processing happens locally in your browser. Your photos are never uploaded to a
+                                server. Scores are stored anonymously in your browser's local storage.</p>
+                        </div>
+                    </div>
+
+                    <div class="consent-actions">
+                        <button id="decline-btn" class="btn btn-secondary">I'll Pass</button>
+                        <button id="consent-btn" class="btn btn-primary">
+                            <span>I Understand & Continue</span>
+                            <span class="btn-arrow">→</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Upload Screen -->
+        <section id="upload-screen" class="screen">
+            <div class="glass-card upload-card">
+                <button id="back-to-consent" class="back-btn">← Back</button>
+
+                <div class="mode-selector">
+                    <button id="single-mode-btn" class="mode-btn active">Single Photo</button>
+                    <button id="compare-mode-btn" class="mode-btn">Compare 2 Photos</button>
+                </div>
+
+                <h2 class="screen-title">Upload Your Photo</h2>
+                <p class="screen-subtitle">Choose a clear, well-lit photo of your face</p>
+
+                <div class="name-input-container">
+                    <label for="user-name" class="name-label">Your Name (optional)</label>
+                    <input type="text" id="user-name" class="name-input"
+                        placeholder="Enter your name for the leaderboard" maxlength="30">
+                </div>
+
+                <!-- Single Photo Mode -->
+                <div id="single-upload-container" class="upload-mode-container">
+                    <div id="upload-zone" class="upload-zone">
+                        <input type="file" id="file-input" accept="image/jpeg,image/png,image/jpg" hidden>
+                        <div class="upload-placeholder">
+                            <div class="upload-icon">📸</div>
+                            <p class="upload-text">Drag & drop your photo here</p>
+                            <p class="upload-subtext">or</p>
+                            <button id="browse-btn" class="btn btn-outline">Browse Files</button>
+                            <p class="upload-hint">Supported: JPG, PNG • Max 10MB</p>
+                        </div>
+                        <div id="image-preview" class="image-preview hidden">
+                            <img id="preview-img" src="" alt="Preview">
+                            <button id="remove-image" class="remove-btn">✕</button>
+                        </div>
+                    </div>
+
+                    <button id="analyze-btn" class="btn btn-primary btn-large hidden">
+                        <span>Analyze My Photo</span>
+                        <span class="btn-glow"></span>
+                    </button>
+                </div>
+
+                <!-- Compare Mode -->
+                <div id="compare-upload-container" class="upload-mode-container hidden">
+                    <div class="compare-grid">
+                        <div class="compare-item">
+                            <h3 class="compare-label">Photo 1</h3>
+                            <input type="text" id="name-1" class="name-input-small" placeholder="Name (optional)"
+                                maxlength="30">
+                            <div id="upload-zone-1" class="upload-zone-small">
+                                <input type="file" id="file-input-1" accept="image/jpeg,image/png,image/jpg" hidden>
+                                <div class="upload-placeholder-small">
+                                    <div class="upload-icon-small">📸</div>
+                                    <button id="browse-btn-1" class="btn btn-outline btn-small">Upload</button>
+                                </div>
+                                <div id="image-preview-1" class="image-preview-small hidden">
+                                    <img id="preview-img-1" src="" alt="Preview 1">
+                                    <button id="remove-image-1" class="remove-btn-small">✕</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="compare-divider">VS</div>
+
+                        <div class="compare-item">
+                            <h3 class="compare-label">Photo 2</h3>
+                            <input type="text" id="name-2" class="name-input-small" placeholder="Name (optional)"
+                                maxlength="30">
+                            <div id="upload-zone-2" class="upload-zone-small">
+                                <input type="file" id="file-input-2" accept="image/jpeg,image/png,image/jpg" hidden>
+                                <div class="upload-placeholder-small">
+                                    <div class="upload-icon-small">📸</div>
+                                    <button id="browse-btn-2" class="btn btn-outline btn-small">Upload</button>
+                                </div>
+                                <div id="image-preview-2" class="image-preview-small hidden">
+                                    <img id="preview-img-2" src="" alt="Preview 2">
+                                    <button id="remove-image-2" class="remove-btn-small">✕</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="analyze-compare-btn" class="btn btn-primary btn-large hidden">
+                        <span>Compare Photos</span>
+                        <span class="btn-glow"></span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Loading Screen -->
+        <section id="loading-screen" class="screen">
+            <div class="loading-container">
+                <div class="loading-spinner"></div>
+                <h2 class="loading-text">AI Analyzing Your Photo...</h2>
+                <p class="loading-subtext">Detecting facial features and calculating your score</p>
+            </div>
+        </section>
+
+        <!-- Results Screen -->
+        <section id="results-screen" class="screen">
+            <div class="glass-card results-card">
+                <h2 class="screen-title">Your Results</h2>
+
+                <div class="score-display">
+                    <div class="score-circle">
+                        <svg class="score-ring" viewBox="0 0 200 200">
+                            <circle class="score-ring-bg" cx="100" cy="100" r="85"></circle>
+                            <circle id="score-ring-fill" class="score-ring-fill" cx="100" cy="100" r="85"></circle>
+                        </svg>
+                        <div class="score-content">
+                            <div id="score-value" class="score-value">0</div>
+                            <div class="score-label">/ 100</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-label">Percentile</div>
+                        <div id="percentile-value" class="stat-value">--</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-label">Your Rank</div>
+                        <div id="rank-value" class="stat-value">--</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-label">Total Users</div>
+                        <div id="total-users-value" class="stat-value">--</div>
+                    </div>
+                </div>
+
+                <div class="result-message">
+                    <p id="result-text" class="result-text"></p>
+
+                    <div id="ai-explanation" class="ai-explanation hidden">
+                        <div class="ai-badge">🤖 Powered by Gemini AI</div>
+                        <p id="explanation-text" class="explanation-text"></p>
+                    </div>
+                </div>
+
+                <div class="result-actions">
+                    <button id="try-again-btn" class="btn btn-secondary">Try Another Photo</button>
+                    <button id="view-leaderboard-btn" class="btn btn-outline">View Leaderboard</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Results Screen -->
+        <section id="comparison-results-screen" class="screen">
+            <div class="glass-card results-card">
+                <h2 class="screen-title">Comparison Results</h2>
+
+                <div class="comparison-grid">
+                    <div class="comparison-result">
+                        <div class="comparison-photo">
+                            <img id="comparison-img-1" src="" alt="Photo 1">
+                        </div>
+                        <h3 id="comparison-name-1" class="comparison-name">Person 1</h3>
+                        <div class="comparison-score" id="comparison-score-1">0</div>
+                        <div class="comparison-rank" id="comparison-rank-1">-</div>
+                    </div>
+
+                    <div class="comparison-divider-vertical">
+                        <div class="winner-badge" id="winner-badge"></div>
+                    </div>
+
+                    <div class="comparison-result">
+                        <div class="comparison-photo">
+                            <img id="comparison-img-2" src="" alt="Photo 2">
+                        </div>
+                        <h3 id="comparison-name-2" class="comparison-name">Person 2</h3>
+                        <div class="comparison-score" id="comparison-score-2">0</div>
+                        <div class="comparison-rank" id="comparison-rank-2">-</div>
+                    </div>
+                </div>
+
+                <div class="result-actions">
+                    <button id="compare-again-btn" class="btn btn-secondary">Compare Again</button>
+                    <button id="view-leaderboard-compare-btn" class="btn btn-outline">View Leaderboard</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leaderboard Screen -->
+        <section id="leaderboard-screen" class="screen">
+            <div class="glass-card leaderboard-card">
+                <button id="close-leaderboard" class="back-btn">← Back to Results</button>
+
+                <h2 class="screen-title">Leaderboard</h2>
+                <p class="screen-subtitle">Top scores from all users</p>
+
+                <div id="leaderboard-list" class="leaderboard-list">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- TensorFlow.js and face-api.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.12/dist/face-api.min.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
