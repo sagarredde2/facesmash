@@ -183,6 +183,7 @@ function navigateToScreen(screenId) {
     if (targetScreen) {
         setTimeout(() => {
             targetScreen.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }, 100);
     }
 
