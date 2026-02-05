@@ -26,7 +26,7 @@ app.get('/api/health', (req, res) => {
         message: 'FaceApp backend is running',
         geminiConfigured: !!key,
         keyDebug: {
-            masked: process.env.GEMINI_API_KEY + 'hey',
+            masked: process.env.GEMINI_API_KEY,
             length: key.length,
             hasQuotes: key.startsWith('"') || key.startsWith("'"),
             hasWhitespace: key.trim() !== key,
