@@ -131,25 +131,30 @@ body {
     width: 100%;
     min-height: 100vh;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    /* Change from center to allow scrolling from top */
     justify-content: center;
-    padding: var(--space-md);
+    padding: var(--space-xl) var(--space-md);
+    /* Increase vertical padding */
+    overflow-y: auto;
 }
 
 .screen {
-    position: absolute;
+    position: relative;
+    /* Change from absolute to relative for natural document flow */
     width: 100%;
     max-width: 600px;
     opacity: 0;
     transform: translateY(30px);
-    pointer-events: none;
+    display: none;
+    /* Use display none instead of pointer-events for better layout flow */
     transition: opacity var(--transition-slow), transform var(--transition-slow);
 }
 
 .screen.active {
     opacity: 1;
     transform: translateY(0);
-    pointer-events: auto;
+    display: block;
 }
 
 /* ===========================
@@ -770,7 +775,9 @@ body {
 
 .mb-lg {
     margin-bottom: var(--space-lg);
-}/* Name Input Styling */
+}
+
+/* Name Input Styling */
 .name-input-container {
     margin-bottom: var(--space-lg);
 }
@@ -804,13 +811,17 @@ body {
 
 .name-input::placeholder {
     color: var(--text-muted);
-}/* Leaderboard name styling */
+}
+
+/* Leaderboard name styling */
 .leaderboard-name {
     font-size: 1.1rem;
     font-weight: 600;
     color: var(--text-primary);
     margin-bottom: 0.25rem;
-}/* Mode Selector */
+}
+
+/* Mode Selector */
 .mode-selector {
     display: flex;
     gap: var(--space-sm);
@@ -1072,7 +1083,9 @@ body {
         width: 100%;
         height: 2px;
     }
-}/* AI Explanation Styles */
+}
+
+/* AI Explanation Styles */
 .ai-explanation {
     margin: var(--space-lg) 0;
     padding: var(--space-md);
