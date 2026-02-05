@@ -16,12 +16,23 @@ app.use(express.static(__dirname));
 // Initialize Gemini AI
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// Health check endpoint
 app.get('/api/health', (req, res) => {
+    const key = process.env.GEMINI_API_KEY || '';
+    // Security: Only show first 4 and last 4 chars to verify key loading
+    const maskedKey = key ? `${key.substring(0, 4)}...${key.substring(key.length - 4)}` : 'Not Set';
+
     res.json({
         status: 'ok',
         message: 'FaceApp backend is running',
-        geminiConfigured: !!process.env.GEMINI_API_KEY
+        geminiConfigured: !!key,
+        keyDebug: {
+            masked: maskedKey,
+            length: key.length,
+            hasQuotes: key.startsWith('"') || key.startsWith("'"),
+            hasWhitespace: key.trim() !== key,
+            rawStart: key.substring(0, 2),
+            rawEnd: key.substring(key.length - 2)
+        }
     });
 });
 
