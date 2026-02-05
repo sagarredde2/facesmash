@@ -18,10 +18,22 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
+    const key = process.env.GEMINI_API_KEY || '';
+    // Security: Only show first 4 and last 4 chars to verify key loading
+    const maskedKey = key ? `${key.substring(0, 4)}...${key.substring(key.length - 4)}` : 'Not Set';
+
+    console.log(`Debug: Key Length: ${key.length}, Start: ${key.substring(0, 2)}`);
+
     res.json({
         status: 'ok',
         message: 'FaceApp backend is running',
-        geminiConfigured: !!process.env.GEMINI_API_KEY
+        geminiConfigured: !!key,
+        keyDebug: {
+            masked: maskedKey,
+            length: key.length,
+            hasQuotes: key.startsWith('"') || key.startsWith("'"),
+            hasWhitespace: key.trim() !== key
+        }
     });
 });
 
@@ -45,7 +57,7 @@ app.post('/api/analyze', async (req, res) => {
         const base64Image = image.replace(/^data:image\/\w+;base64,/, '');
 
         // Get Gemini model (use gemini-2.5-flash for multimodal analysis)
-        const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
         // Craft the prompt
         const prompt = `Analyze this person's facial attractiveness objectively and professionally based on:
@@ -135,7 +147,7 @@ app.post('/api/compare', async (req, res) => {
         const base64Image1 = image1.replace(/^data:image\/\w+;base64,/, '');
         const base64Image2 = image2.replace(/^data:image\/\w+;base64,/, '');
 
-        const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
         const prompt = `Compare these two people's facial attractiveness objectively.
 
