@@ -56,7 +56,7 @@ app.post('/api/analyze', async (req, res) => {
         // Remove data URL prefix if present
         const base64Image = image.replace(/^data:image\/\w+;base64,/, '');
 
-        // Get Gemini model (use gemini-2.5-flash for multimodal analysis)
+        // Get Gemini model (use gemini-2.0-flash for multimodal analysis)
         const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
 
         // Craft the prompt
